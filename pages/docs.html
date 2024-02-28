@@ -1,0 +1,2546 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>QUINNDO | Documentation</title>
+    <link rel="shortcut icon" href="./favicon.png">
+    
+    <link rel="stylesheet" href="./dist/main.css">
+    <link rel="stylesheet" href="./dist/docs.css">
+
+    <script>
+      function copyCode(btn) {
+        navigator.clipboard.writeText(btn.parentElement.parentElement.innerText);
+        btn.parentElement.classList.add('success');
+        setTimeout(() => {
+          btn.parentElement.classList.remove('success');
+        },1500);
+      }
+
+      window.onload = () => {
+        for (const code of document.querySelectorAll('code.big')) {
+          const clone = document.getElementById('copy-master').cloneNode(true);
+          clone.removeAttribute('id');
+          clone.removeAttribute('style');
+          code.prepend(clone);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="copy" style="display:none;" id="copy-master">
+      <span></span>
+      <button onclick="copyCode(this)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Copy Code</title>
+          <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+        </svg>
+      </button>
+    </div>
+    <nav>
+      <ol>
+      <li> <!-- Basic Data Types -->
+        <a href="#basic-data-types">Basic Data Types</a>
+        <ol>
+          <li><a href="#num">Number (<span class="keyword">num</span>)</a></li>
+          <li><a href="#var">Variable (<span class="keyword">var</span>)</a></li>
+          <li><a href="#alias">Alias (<span class="keyword">alias</span>)</a></li>
+          <li><a href="#nvec">Number Vector (<span class="keyword">nvec</span>)</a></li>
+          <li><a href="#vvec">Variable Vector (<span class="keyword">vvec</span>)</a></li>
+          <li><a href="#avec">Alias Vector (<span class="keyword">avec</span>)</a></li>
+          <li><a href="#nmtx">Number Matrix (<span class="keyword">nmtx</span>)</a></li>
+          <li><a href="#vmtx">Variable Matrix (<span class="keyword">vmtx</span>)</a></li>
+          <li><a href="#bool">Boolean (<span class="keyword">bool</span>)</a></li>
+          <li><a href="#bvec">Boolean Vector (<span class="keyword">bvec</span>)</a></li>
+          <li><a href="#str">String (<span class="keyword">str</span>)</a></li>
+          <li><a href="#svec">String Vector (<span class="keyword">svec</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Advanced Data Types -->
+        <a href="#advanced-data-types">Advanced Data Types</a>
+        <ol>
+          <li><a href="#nmtx2">Number Matrix (<span class="keyword">nmtx</span>)</a></li>
+          <li><a href="#vmtx2">Variable Matrix (<span class="keyword">vmtx</span>)</a></li>
+          <li><a href="#model">Model (<span class="keyword">model</span>)</a></li>
+          <li><a href="#ntwk">Network (<span class="keyword">ntwk</span>)</a></li>
+          <li><a href="#node">Node (<span class="keyword">node</span>)</a></li>
+          <li><a href="#edge">Edge (<span class="keyword">edge</span>)</a></li>
+          <li><a href="#date">Date (<span class="keyword">date</span>)</a></li>
+          <li><a href="#dvec">Date Vector (<span class="keyword">dvec</span>)</a></li>
+          <li><a href="#offset">Date Offset (<span class="keyword">offset</span>)</a></li>
+          <li><a href="#ovec">Date Offset Vector (<span class="keyword">ovec</span>)</a></li>
+          <li><a href="#meas">Measurement (<span class="keyword">meas</span>)</a></li>
+          <li><a href="#mvec">Measurement Vector (<span class="keyword">mvec</span>)</a></li>
+          <li><a href="#plot">Plot (<span class="keyword">plot</span>)</a></li>
+          <li><a href="#test">Test (<span class="keyword">test</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Operators -->
+        <a href="#operators">Operators</a>
+        <ol>
+          <li><a href="#assignment">Assignment (<span class="operator">=</span>)</a></li>
+          <li><a href="#addition">Addition (<span class="operator">+</span>)</a></li>
+          <li><a href="#subtraction">Subtraction (<span class="operator">-</span>)</a></li>
+          <li><a href="#multiplication">Multiplication (<span class="operator">*</span>)</a></li>
+          <li><a href="#division">Division (<span class="operator">/</span>)</a></li>
+          <li><a href="#percent">Percent (<span class="operator">%</span>)</a></li>
+          <li><a href="#exponentiation">Exponentiation (<span class="operator">^</span>)</a></li>
+          <li><a href="#modulus">Modulus (<span class="operator">mod</span>)</a></li>
+          <li><a href="#factorial">Factorial (<span class="operator">!</span>)</a></li>
+          <li><a href="#transpose">Transpose (<span class="operator">'</span>)</a></li>
+          <li><a href="#pointwise-addition">Pointwise Addition (<span class="operator">addeach</span>)</a></li>
+          <li><a href="#pointwise-subtraction">Pointwise Subtraction (<span class="operator">subeach</span>)</a></li>
+          <li><a href="#pointwise-multiplication">Pointwise Multiplication (<span class="operator">multeach</span>)</a></li>
+          <li><a href="#pointwise-division">Pointwise Division (<span class="operator">diveach</span>)</a></li>
+          <li><a href="#not">Not (<span class="operator">~</span>)</a></li>
+          <li><a href="#and">And (<span class="operator">&</span>)</a></li>
+          <li><a href="#or">Or (<span class="operator">|</span>)</a></li>
+          <li><a href="#xor">Exclusive Or (<span class="operator">xor</span>)</a></li>
+          <li><a href="#nor">Not Or (<span class="operator">nor</span>)</a></li>
+          <li><a href="#equality">Equality (<span class="operator">==</span>)</a></li>
+          <li><a href="#not-equal">Not Equal (<span class="operator">~=</span>)</a></li>
+          <li><a href="#strict-equality">Strict Equality (<span class="operator">===</span>)</a></li>
+          <li><a href="#strict-not-equal">Strict Not Equal (<span class="operator">~==</span>)</a></li>
+          <li><a href="#conditional-ternary">Conditional Ternary (<span class="operator">?:</span>)</a></li>
+          <li><a href="#if-then">If-Then (<span class="operator">=&gt;</span>)</a></li>
+          <li><a href="#if-and-only-if">If-And-Only-If (<span class="operator">&lt;=&gt;</span>)</a></li>
+          <li><a href="#append">Append (<span class="operator">&lt;|</span>)</a></li>
+          <li><a href="#piping">Piping (<span class="operator">|&gt;</span>)</a></li>
+          <li><a href="#spread">Spread (<span class="operator">...</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Vector Syntax -->
+        <a href="#vector-syntax">Vector Syntax</a>
+        <ol>
+          <li><a href="#vector-indexes">Vector Indexes</a></li>
+          <li><a href="#vector-slicing">Vector Slicing</a></li>
+          <li><a href="#vector-filtering">Vector Filtering</a></li>
+          <li><a href="#matrix-indexes">Matrix Indexes</a></li>
+        </ol>
+      </li>
+      <li> <!-- Useful Keywords -->
+        <a href="#useful-keywords">Useful Keywords</a>
+        <ol>
+          <li><a href="#in"><span class="keyword">in</span></a></li>
+          <li><a href="#keyof"><span class="keyword">keyof</span></a></li>
+          <li><a href="#is-and-can"><span class="keyword">is</span> and <span class="keyword">can</span></a></li>
+          <li><a href="#fa-and-fo"><span class="keyword">fa</span> and <span class="keyword">fo</span></a></li>
+          <li><a href="#stfu"><span class="keyword">stfu</span></a></li>
+          <li><a href="#assert"><span class="keyword">assert</span></a></li>
+        </ol>
+      </li>
+      <li> <!-- Macros -->
+        <a href="#macros">Macros</a>
+        <ol>
+          <li><a href="#maximize">Model Maximizer (<span class="macro">maximize</span>)</a></li>
+          <li><a href="#minimize">Model Minimizer (<span class="macro">minimize</span>)</a></li>
+          <li><a href="#lindoize">Convert to LINDO (<span class="macro">lindoize</span>)</a></li>
+          <li><a href="#min_path">Shortest Path Finder (<span class="macro">min_path</span>)</a></li>
+          <li><a href="#render">Renderer (<span class="macro">render</span>)</a></li>
+          <li><a href="#print">Print (<span class="macro">print</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Math Operations -->
+        <a href="#math-operations">Math Operations</a>
+        <ol>
+          <li><a href="#sign">Sign (<span class="func">sign</span>)</a></li>
+          <li><a href="#log">Natural Logarithm (<span class="func">log</span>)</a></li>
+          <li><a href="#log2">Base-2 Logarithm (<span class="func">log2</span>)</a></li>
+          <li><a href="#log10">Base-10 Logarithm (<span class="func">log10</span>)</a></li>
+          <li><a href="#exp">Exponential (<span class="func">exp</span>)</a></li>
+          <li><a href="#abs">Absolute Value (<span class="func">abs</span>)</a></li>
+          <li><a href="#floor">Floor (<span class="func">floor</span>)</a></li>
+          <li><a href="#round">Round (<span class="func">round</span>)</a></li>
+          <li><a href="#ceil">Ceiling (<span class="func">ceil</span>)</a></li>
+          <li><a href="#sqrt">Square Root (<span class="func">sqrt</span>)</a></li>
+          <li><a href="#cbrt">Cube Root (<span class="func">cbrt</span>)</a></li>
+          <li><a href="#cos">Cosine (<span class="func">cos</span>)</a></li>
+          <li><a href="#acos">Arc-Cosine (<span class="func">acos</span>)</a></li>
+          <li><a href="#sin">Sine (<span class="func">sin</span>)</a></li>
+          <li><a href="#asin">Arc-Sine (<span class="func">asin</span>)</a></li>
+          <li><a href="#tan">Tangent (<span class="func">tan</span>)</a></li>
+          <li><a href="#atan">Arc-Tangent (<span class="func">atan</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Stat Summs -->
+        <a href="#stat-summs">Statistical Summaries</a>
+        <ol>
+          <li><a href="#sum">Sum (<span class="func">sum</span>)</a></li>
+          <li><a href="#mean">Mean (<span class="func">mean</span>)</a></li>
+          <li><a href="#size">Size (<span class="func">size</span>)</a></li>
+          <li><a href="#median">Median (<span class="func">median</span>)</a></li>
+          <li><a href="#mode">Mode (<span class="func">mode</span>)</a></li>
+          <li><a href="#max">List Maximum (<span class="func">max</span>)</a></li>
+          <li><a href="#min">List Minimum (<span class="func">min</span>)</a></li>
+          <li><a href="#samsd">Sample Standard Deviation (<span class="func">samsd</span>)</a></li>
+          <li><a href="#samvar">Sample Standard Variance (<span class="func">samvar</span>)</a></li>
+          <li><a href="#popsd">Population Standard Deviation (<span class="func">popsd</span>)</a></li>
+          <li><a href="#popvar">Population Standard Variance (<span class="func">popvar</span>)</a></li>
+          <li><a href="#rsq">R-Squared (<span class="func">rsq</span>)</a></li>
+          <li><a href="#lsr">Least Squares Linear Regression (<span class="func">lsr</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Stat Test -->
+        <a href="#stat-tests">Statistical Tests</a>
+        <ol>
+          <li><a href="#ztest">One-Sample Z-Test (<span class="func">ztest</span>)</a></li>
+          <li><a href="#ztest2">Two-Sample Z-Test (<span class="func">ztest2</span>)</a></li>
+          <li><a href="#ttest">One-Sample T-Test (<span class="func">ttest</span>)</a></li>
+          <li><a href="#ttest2">Two-Sample T-Test (<span class="func">ttest2</span>)</a></li>
+          <li><a href="#ftest">F-Test (<span class="func">ftest</span>)</a></li>
+          <li><a href="#anova">ANOVA (<span class="func">anova</span>)</a></li>
+          <li><a href="#goftest">Goodness of Fit Test (<span class="func">goftest</span>)</a></li>
+          <li><a href="#indtest">&Chi;<sup>2</sup> Test for Independence (<span class="func">indtest</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Vector & Matrix Functions -->
+        <a href="#vec-and-mtx-functions">Vectro &amp; Matrix Functions</a>
+        <ol>
+          <li><a href="#range">Vector Range Builder (<span class="func">range</span>)</a></li>
+          <li><a href="#size">Vector Size (<span class="func">size</span>)</a></li>
+          <li><a href="#nrow">Matrix Row Count (<span class="func">nrow</span>)</a></li>
+          <li><a href="#ncol">Matrix Column Count (<span class="func">ncol</span>)</a></li>
+          <li><a href="#maxcol">Matrix Max Column Count (<span class="func">maxcol</span>)</a></li>
+          <li><a href="#mincol">Matrix Min Column Count (<span class="func">mincol</span>)</a></li>
+          <li><a href="#unit">Unit Vector Normalizer (<span class="func">unit</span>)</a></li>
+          <li><a href="#prob">Probability Normalizer (<span class="func">prob</span>)</a></li>
+          <li><a href="#norm">Z-Score Normalizer (<span class="func">norm</span>)</a></li>
+          <li><a href="#sort">Vector Sorter (<span class="func">sort</span>)</a></li>
+          <li><a href="#trace">Matrix Trace (<span class="func">trace</span>)</a></li>
+          <li><a href="#deter">Matrix Determinant (<span class="func">deter</span>)</a></li>
+          <li><a href="#diag">Matrix Diagonal Elements (<span class="func">diag</span>)</a></li>
+          <li><a href="#identity">Identity Matrix (<span class="func">identity</span>)</a></li>
+          <li><a href="#inv">Matrix Inversion (<span class="func">inv</span>)</a></li>
+          <li><a href="#unique">Unique Elements (<span class="func">unique</span>)</a></li>
+          <li><a href="#union">Common Elements (<span class="func">union</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Misc Functions -->
+        <a href="#misc-functions">Miscellaneous Functions</a>
+        <ol>
+          <li><a href="#join">String Vector Joiner (<span class="func">join</span>)</a></li>
+          <li><a href="#split">String Splitter (<span class="func">split</span>)</a></li>
+        </ol>
+      </li>
+      <li> <!-- Examples -->
+        <a href="#examples">Examples</a>
+        <ol>
+          <li><a href="#example-scatter">Scatter Plot</a></li>
+          <li><a href="#example-ttest2">Student's 2-Sample T-Test</a></li>
+          <li><a href="#example-int-prog">Integer Programming</a></li>
+          <li><a href="#example-min-path">Shortest Path</a></li>
+        </ol>
+      </li>
+    </ol>
+    </nav>
+    <main>
+
+      <div class="top-bar">
+        <!-- <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gradient" gradientUnits="userSpaceOnUse" gradientTransform="rotate(65)">
+              <stop offset="0%" stop-color="#3eaa09"/>
+              <stop offset="50%" stop-color="#3d7af5"/>
+              <stop offset="100%" stop-color="#a60df2"/>
+            </linearGradient>
+          </defs>
+          <mask id="logo-mask">
+            <rect x="0" y="0" height="512" width="512" fill="black"></rect>
+            <polygon points="256 0,478 128,478 384,256 512,34 384,34 128" fill="white"></polygon>
+            <polygon points="256 96,394 176,394 336,256 416,118 336,118 176" fill="black"></polygon>
+            <polygon points="261 360,343 312,431 464,347 512" fill="white"></polygon>
+          </mask>
+          <rect x="0" y="0" width="512" height="512" fill="url(#gradient)" mask="url(#logo-mask)"></rect>
+        </svg> -->
+        <img src="./dist/logo.svg" alt="QUINNDO Logo">
+        <span>QUINNDO Documentation</span>
+      </div>
+
+      <p>QUINNDO is a language designed for linear optimization and statistical analysis.</p>
+
+      <!-- ~ BASIC DATA TYPES ~ -->
+      <h1 id="basic-data-types">Basic Data Types</h1>
+
+      <h2 id="num">Number (<span class="keyword">num</span>)</h2>
+      <table><tbody>
+        <tr> <!-- 5 -->
+          <td>
+            <code>
+              <span class="keyword">num</span> 
+              <span class="num">a</span> 
+              <span class="operator">=</span> 
+              <span class="number">5</span>
+            </code>
+          </td>
+          <td>5</td>
+          <td></td>
+        </tr>
+        <tr> <!-- 5.5 -->
+          <td>
+            <code>
+              <span class="keyword">num</span> 
+              <span class="num">a</span> 
+              <span class="operator">=</span> 
+              <span class="number">5.5</span>
+            </code>
+          </td>
+          <td>5.5</td>
+          <td></td>
+        </tr>
+        <tr> <!-- 5.5e6 -->
+          <td>
+            <code>
+              <span class="keyword">num</span> 
+              <span class="num">a</span> 
+              <span class="operator">=</span> 
+              <span class="number">5.5e6</span>
+            </code>
+          </td>
+          <td>5,500,000</td>
+          <td rowspan="2">These syntaxes are why no symbol can be named "e"</td>
+        </tr>
+        <tr> <!-- 5e-3 -->
+          <td>
+            <code>
+              <span class="keyword">num</span> 
+              <span class="num">a</span> 
+              <span class="operator">=</span> 
+              <span class="number">1e-3</span>
+            </code>
+          </td>
+          <td>0.001</td>
+          <!-- <td></td> -->
+        </tr>
+        <tr> <!-- 1_000_000 -->
+          <td>
+            <code>
+              <span class="keyword">num</span> 
+              <span class="num">a</span> 
+              <span class="operator">=</span> 
+              <span class="number">1_000_000</span>
+            </code>
+          </td>
+          <td>1,000,000</td>
+          <td>Numbers can use underscores as a thousands separator</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="var">Variable (<span class="keyword">var</span>)</h2>
+      <table><tbody>
+        <tr> <!-- 5 -->
+          <td>
+            <code>
+              <span class="keyword">var</span> 
+              <span class="var">a</span>
+            </code>
+          </td>
+          <td></td>
+        </tr>
+        <tr> <!-- 5.5 -->
+          <td>
+            <code>
+              <span class="keyword">var</span> 
+              <span class="var">a</span><span class="operator">,</span><span class="var">b</span>
+            </code>
+          </td>
+          <td>More than one variable can be declared per line</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="alias">Alias (<span class="keyword">alias</span>)</h2>
+      <p>Aliases are linear combinations of variables and numbers used in linear programming models.</p>
+      <table><tbody>
+        <tr> <!-- 2b+5 -->
+          <td>
+            <code>
+              <span class="keyword">alias</span> 
+              <span class="alias">a</span> 
+              <span class="operator">=</span> 
+              <span class="number">2</span><span class="var">b</span>
+              <span class="operator">+</span>
+              <span class="number">5</span>
+            </code>
+          </td>
+          <td></td>
+        </tr>
+        <tr> <!-- a -->
+          <td>
+            <code>
+              <span class="keyword">alias</span> 
+              <span class="alias">a</span>
+              <span class="operator">=</span>
+              <span class="var">b</span>
+            </code>
+          </td>
+          <td rowspan="2">Numbers and variables are castable to aliases</td>
+        </tr>
+        <tr> <!-- a -->
+          <td>
+            <code>
+              <span class="keyword">alias</span> 
+              <span class="alias">a</span>
+              <span class="operator">=</span>
+              <span class="number">5</span>
+            </code>
+          </td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="nvec">Number Vector (<span class="keyword">nvec</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">nvec</span> 
+              <span class="nvec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="number">2</span><span class="operator">,</span><span class="num">a</span><span class="operator">]</span> 
+            </code>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">nvec</span> 
+              <span class="nvec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="number">2</span><span class="var">i</span>
+              <span class="keyword">for</span>
+              <span class="var">i</span><span class="operator">=</span><span class="number">1</span>
+              <span class="keyword">to</span>
+              <span class="number">5</span><span class="operator">]</span>
+            </code>
+          </td>
+          <td class="wide">=> [2,4,6,8,10]</td>
+        </tr>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">nvec</span> 
+              <span class="nvec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="number">2</span><span class="var">i</span>
+              <span class="keyword">for</span>
+              <span class="var">i</span><span class="operator">=</span><span class="number">1</span>
+              <span class="keyword">until</span>
+              <span class="number">7</span>
+              <span class="keyword">step</span>
+              <span class="number">2</span><span class="operator">]</span>
+            </code>
+          </td>
+          <td class="wide">=> [2,6,10]</td>
+        </tr>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">nvec</span> 
+              <span class="nvec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="number">2</span><span class="var">i</span>
+              <span class="keyword">for</span>
+              <span class="var">i</span>
+              <span class="keyword">in</span>
+              <span class="operator">[</span><span class="number">6</span><span class="operator">,</span><span class="number">9</span><span class="operator">]</span>
+              <span class="operator">]</span>
+            </code>
+          </td>
+          <td class="wide">=> [12,18]</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="vvec">Variable Vector (<span class="keyword">vvec</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">vvec</span> 
+              <span class="vvec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="var">a</span><span class="operator">,</span><span class="var">b</span><span class="operator">]</span> 
+            </code>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">vvec</span> 
+              <span class="vvec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="var">x</span><span class="operator">{</span><span class="var">i</span><span class="operator">}</span>
+              <span class="keyword">for</span>
+              <span class="var">i</span><span class="operator">=</span><span class="number">1</span>
+              <span class="keyword">to</span>
+              <span class="number">5</span><span class="operator">]</span>
+            </code>
+          </td>
+          <td class="wide">=> [x1,x2,x3,x4,x5]</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="alias">Alias Vector (<span class="keyword">avec</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">avec</span> 
+              <span class="avec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="alias">a</span><span class="operator">,</span><span class="alias">b</span><span class="operator">]</span> 
+            </code>
+          </td>
+          <td></td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="nmtx">Number Matrix (<span class="keyword">nmtx</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">nmtx</span> 
+              <span class="nmtx">A</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span>
+              <span class="operator">[</span><span class="number">1</span><span class="operator">,</span><span class="number">2</span><span class="operator">]</span>
+              <span class="operator">,</span> 
+              <span class="operator">[</span><span class="number">3</span><span class="operator">,</span><span class="number">4</span><span class="operator">]</span>
+              <span class="operator">]</span> 
+            </code>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">nmtx</span> 
+              <span class="nmtx">A</span> 
+              <span class="operator">=</span>
+              <span class="func">ntmx</span><span class="operator">(</span>
+              <span class="operator">[</span><span class="number">1</span><span class="operator">,</span><span class="number">2</span><span class="operator">,</span><span class="number">3</span><span class="operator">,</span><span class="number">4</span><span class="operator">]</span>
+              <span class="operator">)</span>
+            </code>
+          </td>
+          <td></td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="vmtx">Variable Matrix (<span class="keyword">vmtx</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">vmtx</span> 
+              <span class="vmtx">A</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span>
+              <span class="operator">[</span><span class="var">a</span><span class="operator">,</span><span class="var">b</span><span class="operator">]</span>
+              <span class="operator">,</span> 
+              <span class="operator">[</span><span class="var">c</span><span class="operator">,</span><span class="var">d</span><span class="operator">]</span>
+              <span class="operator">]</span> 
+            </code>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">vmtx</span> 
+              <span class="vmtx">A</span> 
+              <span class="operator">=</span>
+              <span class="func">vtmx</span><span class="operator">(</span>
+              <span class="operator">[</span><span class="var">a</span><span class="operator">,</span><span class="var">b</span><span class="operator">,</span><span class="var">c</span><span class="operator">,</span><span class="var">d</span><span class="operator">]</span>
+              <span class="operator">)</span>
+            </code>
+          </td>
+          <td></td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="bool">Boolean (<span class="keyword">bool</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">bool</span> 
+              <span class="bool">b</span> 
+              <span class="operator">=</span>
+              <span class="keyword">true</span>
+            </code>
+          </td>
+          <td></td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="bvec">Boolean Vector (<span class="keyword">bvec</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">bvec</span> 
+              <span class="bvec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="keyword">true</span><span class="operator">,</span><span class="bool">b</span><span class="operator">]</span>
+            </code>
+          </td>
+          <td></td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="str">String (<span class="keyword">str</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">str</span> 
+              <span class="str">s</span> 
+              <span class="operator">=</span>
+              <span class="str">"Hello World!"</span>
+            </code>
+          </td>
+          <td></td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="svec">String Vector (<span class="keyword">svec</span>)</h2>
+      <table><tbody>
+        <tr>
+          <td>
+            <code>
+              <span class="keyword">svec</span> 
+              <span class="svec">v</span> 
+              <span class="operator">=</span>
+              <span class="operator">[</span><span class="str">"a"</span><span class="operator">,</span><span class="str">s</span><span class="operator">]</span>
+            </code>
+          </td>
+          <td></td>
+        </tr>
+      </tbody></table>
+
+
+      <!-- ~ ADVANCED DATA TYPES ~ -->
+      <h1 id="advanced-data-types">Advanced Data Types</h1>
+
+      <h2 id="nmtx2">Number Matrix (<span class="keyword">nmtx</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="4">
+            <span class="func">nmtx</span><span class="operator">(</span>
+            <span class="param">values</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">nrow</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">ncol</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">byrow</span><span class="operator">?:</span><span class="keyword">bool</span><span class="operator">=</span><span class="keyword">true</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">values</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide" colspan="2">The values to insert into the number matrix</td>
+        </tr>
+        <tr>
+          <td><span class="param">nrow</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of rows the matrix should have</td>
+          <td rowspan="2">If neither option is provided, the most square matrix will be built</td>
+        </tr>
+        <tr>
+          <td><span class="param">nrow</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of columns of the matrix should have</td>
+        </tr>
+        <tr>
+          <td><span class="param">byrow</span><span class="operator">?</span></td>
+          <td><span class="keyword">bool</span></td>
+          <td colspan="2">Whether values should be inserted row first</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="vmtx2">Variable Matrix (<span class="keyword">vmtx</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="4">
+            <span class="func">vmtx</span><span class="operator">(</span>
+            <span class="param">values</span><span class="operator">:</span><span class="keyword">vvec</span>
+            <span class="operator">,</span>
+            <span class="param">nrow</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">ncol</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">byrow</span><span class="operator">?:</span><span class="keyword">bool</span><span class="operator">=</span><span class="keyword">true</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">values</span></td>
+          <td><span class="keyword">vvec</span></td>
+          <td class="wide" colspan="2">The values to insert into the variable matrix</td>
+        </tr>
+        <tr>
+          <td><span class="param">nrow</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of rows the matrix should have</td>
+          <td rowspan="2">If neither option is provided, the most square matrix will be built</td>
+        </tr>
+        <tr>
+          <td><span class="param">nrow</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of columns of the matrix should have</td>
+        </tr>
+        <tr>
+          <td><span class="param">byrow</span><span class="operator">?</span></td>
+          <td><span class="keyword">bool</span></td>
+          <td colspan="2">Whether values should be inserted row first</td>
+        </tr>
+      </tbody></table>
+      
+      <h2 id="model">Model (<span class="keyword">model</span>)</h2>
+      <p>A Model is used to represent an optimization problem.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">model</span><span class="operator">(</span>
+            <span class="param">obj</span><span class="operator">:</span><span class="keyword">alias</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">obj</span></td>
+          <td><span class="keyword">alias</span></td>
+          <td class="wide">The objective value to optimize</td>
+        </tr>
+      </tbody></table>
+      
+      <h2 id="ntwk">Network (<span class="keyword">ntwk</span>)</h2>
+      <p>A Network is used with its appended Nodes and Edges.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">ntwk</span><span class="operator">(</span>
+            <span class="param">bi</span><span class="operator">?:</span><span class="keyword">bool</span><span class="operator">=</span><span class="keyword">false</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">bi</span><span class="operator">?</span></td>
+          <td><span class="keyword">bool</span></td>
+          <td class="wide">Whether to make the network bidirectional</td>
+        </tr>
+      </tbody></table>
+      
+      <h2 id="node">Node (<span class="keyword">node</span>)</h2>
+      <p>A Node is used to represent a node/vertex in a Network.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">node</span><span class="operator">(</span>
+            <span class="param">id</span><span class="operator">:</span><span class="keyword">str</span><span class="operator">|</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">source</span><span class="operator">?:</span><span class="keyword">bool</span><span class="operator">=</span><span class="keyword">false</span>
+            <span class="operator">,</span>
+            <span class="param">sink</span><span class="operator">?:</span><span class="keyword">bool</span><span class="operator">=</span><span class="keyword">false</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">id</span></td>
+          <td><span class="keyword">str</span><span class="operator">|</span><span class="keyword">num</span></td>
+          <td>The id of the node</td>
+        </tr>
+        <tr>
+          <td><span class="param">source</span><span class="operator">?</span></td>
+          <td><span class="keyword">bool</span></td>
+          <td>Whether to make the node a source node</td>
+        </tr>
+        <tr>
+          <td><span class="param">sink</span><span class="operator">?</span></td>
+          <td><span class="keyword">bool</span></td>
+          <td>Whether to make the node a sink node</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="edge">Edge (<span class="keyword">edge</span>)</h2>
+      <p>A Node is used to represent an edge/arc in a Network.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="4">
+            <span class="func">edge</span><span class="operator">(</span>
+            <span class="param">start</span><span class="operator">:</span><span class="keyword">str</span><span class="operator">|</span><span class="keyword">num</span><span class="operator">|</span><span class="keyword">node</span>
+            <span class="operator">,</span>
+            <span class="param">end</span><span class="operator">:</span><span class="keyword">str</span><span class="operator">|</span><span class="keyword">num</span><span class="operator">|</span><span class="keyword">node</span>
+            <span class="operator">,</span>
+            <span class="param">weight</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">1</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">start</span></td>
+          <td style="white-space:nowrap;"><span class="keyword">str</span><span class="operator">|</span><span class="keyword">num</span><span class="operator">|</span><span class="keyword">node</span></td>
+          <td>The starting node or the id of the starting node</td>
+          <td rowspan="2">If no matching node is present in the network, a matching node will be created and added</td>
+        </tr>
+        <tr>
+          <td><span class="param">end</span></td>
+          <td style="white-space:nowrap;"><span class="keyword">str</span><span class="operator">|</span><span class="keyword">num</span><span class="operator">|</span><span class="keyword">node</span></td>
+          <td>The ending node or the id of the ending node</td>
+        </tr>
+        <tr>
+          <td><span class="param">weight</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td colspan="2">The weight assigned to this edge</td>
+        </tr>
+      </tbody></table>
+      
+      <h2 id="date">Date (<span class="keyword">date</span>)</h2>
+      <p>If no values are provided, <span class="func">date</span><span class="operator">()</span> returns the current data and time in the user's time zone.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="4">
+            <span class="func">date</span><span class="operator">(</span><br>
+            &nbsp;&nbsp;<span class="param">year</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">month</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">day</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span><br>
+            &nbsp;&nbsp;<span class="param">hour</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">minute</span><span class="operator">?:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">second</span><span class="operator">?:</span><span class="keyword">num</span><br>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">year</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide" colspan="2">The year in the Gregorian calendar</td>
+        </tr>
+        <tr>
+          <td><span class="param">month</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The month in the Gregorian calendar (Jan=1,Feb=2,...,Dec=12)</td>
+          <td><b>Note:</b> Throws <span class="comp-error"></span> if present without <span class="param">year</span></td>
+        </tr>
+        <tr>
+          <td><span class="param">day</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The day in the month</td>
+          <td><b>Note:</b> Throws <span class="comp-error"></span> if present without <span class="param">month</span></td>
+        </tr>
+        <tr>
+          <td><span class="param">hour</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td colspan="2">The hour of the day in 24-hour format [0-23]</td>
+        </tr>
+        <tr>
+          <td><span class="param">minute</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The minute of the hour [0-59]</td>
+          <td><b>Note:</b> Throws <span class="comp-error"></span> if present without <span class="param">hour</span></td>
+        </tr>
+        <tr>
+          <td><span class="param">second</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The second of the minute [0-59]</td>
+          <td><b>Note:</b> Throws <span class="comp-error"></span> if present without <span class="param">minute</span></td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="dvec">Date Vector (<span class="keyword">dvec</span>)</h2>
+      <p>A Date Vector is an enumerated vector of Date values.</p>
+
+      <h2 id="offset">Date Offset (<span class="keyword">offset</span>)</h2>
+      <p>A Date Offset is used to add or subtract period of time from a date.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">offset</span><span class="operator">(</span><br>
+            &nbsp;&nbsp;<span class="param">year</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span>
+            <span class="operator">,</span>
+            <span class="param">month</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span>
+            <span class="operator">,</span>
+            <span class="param">day</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span>
+            <span class="operator">,</span><br>
+            &nbsp;&nbsp;<span class="param">hour</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span>
+            <span class="operator">,</span>
+            <span class="param">minute</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span>
+            <span class="operator">,</span>
+            <span class="param">second</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span><br>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">year</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of years to offset</td>
+        </tr>
+        <tr>
+          <td><span class="param">month</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of months to offset</td>
+        </tr>
+        <tr>
+          <td><span class="param">day</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of days to offset</td>
+        </tr>
+        <tr>
+          <td><span class="param">hour</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of hours to offset</td>
+        </tr>
+        <tr>
+          <td><span class="param">minute</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The number of minutes to offset</td>
+        </tr>
+        <tr>
+          <td><span class="param">second</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The number of seconds to offset</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="ovec">Date Offset Vector (<span class="keyword">ovec</span>)</h2>
+      <p>A Date Offset Vector is an enumerated vector of Date Offset values.</p>
+
+      <h2 id="meas">Measurement (<span class="keyword">meas</span>)</h2>
+      <p>A Measurement value is a scalar with associated units.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">meas</span><span class="operator">(</span>
+            <span class="param">value</span><span class="operator">:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">units</span><span class="operator">:</span><span class="keyword">str</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">value</span></td>
+          <td><span class="keyword">num</span></td>
+          <td>The scalar of the measurement</td>
+        </tr>
+        <tr>
+          <td><span class="param">units</span></td>
+          <td><span class="keyword">str</span></td>
+          <td class="wide">The units of the measurement</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="mvec">Measurement Vector (<span class="keyword">mvec</span>)</h2>
+      <p>A Measurement Vector is an enumerated vector of Measurement values.</p>
+
+      <h2 id="plot">Plot (<span class="keyword">plot</span>)</h2>
+      <p>A plot is used to render visualization of objects.</p>
+      <table><tbody>
+        <tr>
+          <th>
+            <span class="func">plot</span><span class="operator">()</span>
+          </th>
+        </tr>
+        <tr>
+          <td>This Inator takes no arguments.</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="test">Statistic Test Result (<span class="keyword">test</span>)</h2>
+      <p>A test object is used to hold the result of a statistical test.</p>
+      <table><tbody>
+        <tr>
+          <th>
+            <span class="proxy">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td>This type cannot be created, only returned from another function.</td>
+        </tr>
+      </tbody></table>
+
+
+      <!-- ~ OPERATORS ~ -->
+      <h1>Operators</h1>
+
+      <h2 id="assignment">Assignment (<span class="operator">=</span>)</h2>
+      <p>
+        The assignment operator is used to store values and to establish equality constraints
+        in conjunction with a <span class="keyword">model</span> object.
+      </p>
+
+
+      <h2 id="addition">Addition (<span class="operator">+</span>)</h2>
+      <h2 id="subtraction">Subtraction (<span class="operator">-</span>)</h2>
+      <h2 id="multiplication">Mutliplication (<span class="operator">*</span>)</h2>
+      <h2 id="division">Division (<span class="operator">/</span>)</h2>
+      <h2 id="percent">Percent (<span class="operator">%</span>)</h2>
+      <p>
+        The percent operator is used to divide a value by 100.
+        For example, <span class="number">5</span><span class="operator">%</span> is the same
+        as <span class="number">0.05</span>.
+      </p>
+      <h2 id="exponentation">Exponentiation (<span class="operator">^</span>)</h2>
+      <h2 id="modulus">Modulus (<span class="operator">mod</span>)</h2>
+      <h2 id="factorial">Factorial (<span class="operator">!</span>)</h2>
+
+      <h2 id="transpose">Transpose (<span class="operator">'</span>)</h2>
+      <p>The transpose operator only works on matrices.</p>
+      <h2 id="pointwise-addition">Pointwise Addition (<span class="operator">addeach</span>)</h2>
+      <h2 id="pointwise-subtraction">Pointwise Subtraction (<span class="operator">subeach</span>)</h2>
+      <h2 id="pointwise-multiplication">Pointwise Mutliplication (<span class="operator">multeach</span>)</h2>
+      <h2 id="pointwise-division">Pointwise Division (<span class="operator">diveach</span>)</h2>
+
+      <h2 id="not">Not (<span class="operator">~</span>)</h2>
+      <h2 id="and">And (<span class="operator">&</span>)</h2>
+      <h2 id="or">Or (<span class="operator">|</span>)</h2>
+      <h2 id="xor">Exclusive Or (<span class="operator">xor</span>)</h2>
+      <h2 id="nor">Not Or (<span class="operator">nor</span>)</h2>
+
+      <h2 id="equality">Equality (<span class="operator">==</span>)</h2>
+      <h2 id="not-equal">Not Equal (<span class="operator">~=</span>)</h2>
+      <p>This symbol is typed as a tilde "~" followed by an equal sign "=".</p>
+      <h2 id="strict-equality">Strict Equality (<span class="operator">===</span>)</h2>
+      <p>
+        When comparing numbers, equality returns true if two numbers are within 10<sup>-8</sup> of each other
+        to avoid floating point errors. However, when comparing numbers, strict equality only returns true if 
+        two values are exactly equal. Also applies to inner values within a vector.
+      </p>
+      <h2 id="strict-not-equal">Strict Not Equal (<span class="operator">~==</span>)</h2>
+      <p>
+        Same difference as <b>Equality</b> versus <b>Strict Equality</b>, but negated.
+        This symbol is typed as a tilde "~" followed by two equal signs "==".
+      </p>
+
+      <h2 id="conditional-ternary">Conditional Ternary (<span class="operator">?:</span>)</h2>
+      <p>
+        The conditional ternary operator switches between two values based on the value of a boolean
+        expression. For example,
+        <code><span class="bool">b</span><span class="operator">?</span><span class="number">1</span><span class="operator">:</span><span class="number">0</span></code>
+        evaluates to <span class="number">1</span> if <span class="bool">b</span> is true and
+        <span class="number">0</span> if <span class="bool">b</span> is false.
+      </p>
+
+      <h2 id="if-then">If-Then (<span class="operator">=&gt;</span>)</h2>
+      <p>See description of <a href="#if-and-only-if">If-And-Only-If</a>.</p>
+      <h2 id="if-and-only-if">If-And-Only-If (<span class="operator">&lt;=&gt;</span>)</h2>
+      <p>
+        If-Then and If-And-Only-If are used in constraints when appending to a model object.
+        If-Then and If-And-Only-If are written as "=","&gt;" and "&lt;","=","&gt;", respectively.
+      </p>
+
+      <h2 id="append">Append (<span class="operator">&lt;|</span>)</h2>
+      <p>
+        Appends an object to another object. All object that can have values appended to them are
+        the same <span class="model">color</span>. Written as "&lt;" followed by "|".
+      </p>
+
+      <h2 id="piping">Piping (<span class="operator">|&gt;</span>)</h2>
+      <p>
+        Pipes the previous result into the following function. By default, the piped value will be
+        passed as the first parameter
+        in the following function. This can be changed with the <span class="keyword">result</span>
+        keyword. Written as "|" followed by "&gt;".
+      </p>
+
+      <h2 id="spread">Spread (<span class="operator">...</span>)</h2>
+      <p>
+        Spreads the values of a list over the parameters of a function or values of a vector. For example,
+        <code><span class="func">range</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span><span class="number">10</span><span class="operator">,</span><span class="number">3</span><span class="operator">)</span></code>
+        and
+        <code><span class="func">range</span><span class="operator">(</span><span class="operator">...[</span><span class="number">1</span><span class="operator">,</span><span class="number">10</span><span class="operator">,</span><span class="number">3</span><span class="operator">])</span></code>
+        are equivalent.
+        Similarly,
+        <code>
+          <span class="operator">[</span>
+          <span class="number">0</span>
+          <span class="operator">,</span>
+          <span class="number">1</span>
+          <span class="operator">,</span>
+          <span class="number">2</span>
+          <span class="operator">,</span>
+          <span class="number">3</span>
+          <span class="operator">]</span></code>
+        and
+        <code><span class="operator">[</span>
+          <span class="number">0</span>
+          <span class="operator">,</span>
+          <span class="operator">...</span><span class="operator">[</span>
+          <span class="number">1</span>
+          <span class="operator">,</span>
+          <span class="number">2</span>
+          <span class="operator">]</span>
+          <span class="operator">,</span>
+          <span class="number">3</span>
+          <span class="operator">]</span></code>
+        are equivalent.
+      </p>
+
+
+      <!-- ~ VECTOR SYNTAX ~ -->
+      <h1 id="vector-syntax">Vector Syntax</h1>
+      <h2 id="vector-indexes">Vector Indexes</h2>
+      <p>
+        Vector indexes in QUINNDO are indexed from 1. Negative indexes count from the end.
+        Non-integer indexes are not allowed.
+      </p>
+      <code class="big">
+        <span class="keyword">nvec</span>
+        <span class="nvec">a</span>
+        <span class="operator">=</span>
+        <span class="operator">[</span><span class="number">4</span><span class="operator">,</span><span class="number">5</span><span class="operator">,</span><span class="number">6</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="number">4</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[-</span><span class="number">1</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="number">6</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="keyword">none</span>
+        <span class="comment"># Error: No value at index 0</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="number">1.5</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="keyword">none</span>
+        <span class="comment"># Error: Non-integer index</span>
+      </code>
+
+      <h2 id="vector-slicing">Vector Slicing</h2>
+      <p>
+        Vectors can be sliced with the
+        <code><span class="operator">[</span><span class="number">start</span><span class="operator">?:</span><span class="number">end</span><span class="operator">?:</span><span class="number">step</span><span class="operator">?]</span></code>
+        syntax. If not provided, the default value of start, end, and step is 1, the end of the vector, and 1, respectively.
+        The sliced vector will include the end index.
+      </p>
+      <code class="big">
+        <span class="keyword">nvec</span>
+        <span class="nvec">a</span>
+        <span class="operator">=</span>
+        <span class="operator">[</span><span class="number">4</span><span class="operator">,</span><span class="number">5</span><span class="operator">,</span><span class="number">6</span><span class="operator">,</span><span class="number">7</span><span class="operator">,</span><span class="number">8</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="number">1</span><span class="operator">:</span><span class="number">3</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="operator">[</span><span class="number">4</span><span class="operator">,</span><span class="number">5</span><span class="operator">,</span><span class="number">6</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="operator">:</span><span class="number">3</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="operator">[</span><span class="number">4</span><span class="operator">,</span><span class="number">5</span><span class="operator">,</span><span class="number">6</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="number">2</span><span class="operator">:</span><span class="operator">:</span><span class="number">2</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="operator">[</span><span class="number">5</span><span class="operator">,</span><span class="number">7</span><span class="operator">]</span>
+      </code>
+
+      <h2 id="vector-filtering">Vector Filtering</h2>
+      <p>
+        Vectors can be filtered by using the <span class="keyword">val</span> keyword in the vector index
+        with a filtering condition.
+      </p>
+      <code class="big">
+        <span class="keyword">nvec</span>
+        <span class="nvec">a</span>
+        <span class="operator">=</span>
+        <span class="operator">[</span><span class="number">5</span><span class="operator">,</span><span class="number">6</span><span class="operator">,</span><span class="number">7</span><span class="operator">,</span><span class="number">8</span><span class="operator">,</span><span class="number">9</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="keyword">val</span><span class="operator">></span><span class="number">6</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="operator">[</span><span class="number">7</span><span class="operator">,</span><span class="number">8</span><span class="operator">,</span><span class="number">9</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="keyword">val</span><span class="operator">>=</span><span class="number">6</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="operator">[</span><span class="number">6</span><span class="operator">,</span><span class="number">7</span><span class="operator">,</span><span class="number">8</span><span class="operator">,</span><span class="number">9</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="nvec">a</span><span class="operator">[</span><span class="keyword">val</span>
+        <span class="operator">mod</span>
+        <span class="number">2</span><span class="operator">==</span><span class="number">0</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="operator">[</span><span class="number">6</span><span class="operator">,</span><span class="number">8</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">list</span>
+        <span class="list">b</span>
+        <span class="operator">=</span>
+        <span class="operator">[</span><span class="number">6</span><span class="operator">,</span><span class="keyword">true</span><span class="operator">,</span><span class="keyword">none</span><span class="operator">,</span><span class="number">8</span><span class="operator">,</span><span class="nvec">a</span><span class="operator">,</span><span class="number">10</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="list">b</span><span class="operator">[</span><span class="keyword">val</span>
+        <span class="keyword">is</span>
+        <span class="keyword">num</span><span class="operator">]</span>
+        <span class="operator">==</span>
+        <span class="operator">[</span><span class="number">6</span><span class="operator">,</span><span class="number">8</span><span class="operator">,</span><span class="number">10</span><span class="operator">]</span>
+      </code>
+      
+      <h2 id="matrix-indexes">Matrix Indexes</h2>
+      <p>
+        Similar to vector indexes, matrix rows can by retrieved with
+        <code><span class="operator">[</span><span class="number">index</span><span class="operator">]</span></code>.
+        Matrix columns can be retrieved with
+        <code><span class="operator">{</span><span class="number">index</span><span class="operator">}</span></code>.
+        Matrix rows and columns have the same abilities and restrictions as vector indexes.
+      </p>
+
+      <!-- ~ USEFUL KEYWORDS ~ -->
+      <h1 id="useful-keywords">Useful Keywords</h1>
+
+      <h2 id="in"><span class="keyword">in</span></h2>
+      <p>
+        <span class="keyword">in</span> is used to check if a value is present in a vector.
+      </p>
+      <code class="big">
+        <span class="keyword">nvec</span>
+        <span class="nvec">a</span>
+        <span class="operator">=</span>
+        <span class="operator">[</span><span class="number">6</span><span class="operator">,</span><span class="number">7.5</span><span class="operator">,</span><span class="number">9</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">bool</span>
+        <span class="bool">b</span>
+        <span class="operator">=</span>
+        <span class="number">6</span>
+        <span class="keyword">in</span>
+        <span class="nvec">a</span>
+        <span class="comment"># true</span>
+        <br>
+        <span class="keyword">bool</span>
+        <span class="bool">c</span>
+        <span class="operator">=</span>
+        <span class="number">8</span>
+        <span class="keyword">in</span>
+        <span class="nvec">a</span>
+        <span class="comment"># false</span>
+        <br>
+        <span class="keyword">num</span>
+        <span class="num">d</span>
+        <span class="operator">=</span>
+        <span class="number">6</span>
+        <br>
+        <span class="keyword">bool</span>
+        <span class="bool">f</span>
+        <span class="operator">=</span>
+        <span class="num">d</span>
+        <span class="keyword">in</span>
+        <span class="nvec">a</span>
+        <span class="comment"># true</span>
+      </code>
+
+      <h2 id="keyof"><span class="keyword">keyof</span></h2>
+      <p>
+        <span class="keyword">keyof</span> is used to check if a given object has a given property.
+      </p>
+      <code class="big">
+        <span class="keyword">test</span>
+        <span class="test">a</span>
+        <span class="operator">=</span>
+        <span class="func">ttest</span><span class="operator">(</span>
+        <span class="operator">[</span><span class="number">1</span><span class="operator">,</span><span class="number">2</span><span class="operator">]</span>
+        <span class="operator">,</span>
+        <span class="operator">~=</span>
+        <span class="operator">,</span>
+        <span class="number">5</span>
+        <span class="operator">)</span>
+        <br>
+        <span class="keyword">bool</span>
+        <span class="bool">b</span>
+        <span class="operator">=</span>
+        <span class="str">&quot;rejected&quot;</span>
+        <span class="keyword">keyof</span>
+        <span class="test">a</span>
+        <span class="comment"># true</span>
+        <br>
+        <span class="keyword">bool</span>
+        <span class="bool">c</span>
+        <span class="operator">=</span>
+        <span class="str">&quot;abcdef&quot;</span>
+        <span class="keyword">keyof</span>
+        <span class="test">a</span>
+        <span class="comment"># false</span>
+      </code>
+
+      <h2 id="is-and-can"><span class="keyword">is</span> and <span class="keyword">can</span></h2>
+      <p>
+        <span class="keyword">is</span> and <span class="keyword">can</span> are used to check the
+        data-type of a value. <span class="keyword">is</span> returns true if the data type exactly
+        matches, while <span class="keyword">can</span> returns true if a value can be casted to a 
+        given data type.
+      </p>
+      <code class="big">
+        <span class="keyword">list</span>
+        <span class="list">a</span>
+        <span class="operator">=</span>
+        <span class="operator">[</span><span class="number">6</span><span class="operator">,</span><span class="number">7.5</span><span class="operator">,</span><span class="number">9</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">bool</span>
+        <span class="bool">b</span>
+        <span class="operator">=</span>
+        <span class="list">a</span>
+        <span class="keyword">is</span>
+        <span class="keyword">list</span>
+        <span class="comment"># true</span>
+        <br>
+        <span class="keyword">bool</span>
+        <span class="bool">c</span>
+        <span class="operator">=</span>
+        <span class="list">a</span>
+        <span class="keyword">is</span>
+        <span class="keyword">nvec</span>
+        <span class="comment"># false because a is a list</span>
+        <br>
+        <span class="keyword">bool</span>
+        <span class="bool">d</span>
+        <span class="operator">=</span>
+        <span class="list">a</span>
+        <span class="keyword">can</span>
+        <span class="keyword">nvec</span>
+        <span class="comment"># true because a contains only numbers</span>
+      </code>
+
+      <h2 id="fa-and-fo"><span class="keyword">fa</span> and <span class="keyword">fo</span></h2>
+      <p>
+        <span class="keyword">fa</span> and <span class="keyword">fo</span> make up QUINNDO's 
+        try...catch syntax. Use these statements to provide a fallback value if code
+        encounters an error.
+      </p>
+      <code class="big">
+        <span class="keyword">num</span>
+        <span class="num">a</span>
+        <span class="operator">=</span>
+        <span class="number">1</span>
+        <span class="operator">/</span>
+        <span class="number">0</span>
+        <span class="comment"># Throws error</span>
+        <br>
+        <span class="keyword">num</span>
+        <span class="num">b</span>
+        <span class="operator">=</span>
+        <span class="keyword">fa</span>
+        <span class="number">1</span>
+        <span class="operator">/</span>
+        <span class="number">0</span>
+        <span class="keyword">fo</span>
+        <span class="number">5</span>
+        <span class="comment"># b=5</span>
+        <br>
+        <span class="keyword">num</span>
+        <span class="num">c</span>
+        <span class="operator">=</span>
+        <span class="keyword">fa</span>
+        <span class="number">1</span>
+        <span class="operator">/</span>
+        <span class="number">2</span>
+        <span class="keyword">fo</span>
+        <span class="number">5</span>
+        <span class="comment"># b=1/2</span>
+      </code>
+
+      <h2 id="stfu"><span class="keyword">stfu</span></h2>
+      <p>
+        <span class="keyword">stfu</span> (&quot;Suppress This Faulty Utterance&quot;)
+        is used to disable warnings and recommendations
+        on a line-by-line basis. <span class="keyword">stfu</span> must the last command on its line.
+      </p>
+      <code class="big">
+        <span class="keyword">num</span>
+        <span class="num">a</span>
+        <span class="operator">=</span>
+        <span class="number">4</span>
+        <span class="operator">mod</span>
+        <span class="operator">-</span><span class="number">3</span>
+        <span class="comment"># Raises warning because one parameter is negative</span>
+        <br>
+        <span class="keyword">num</span>
+        <span class="num">b</span>
+        <span class="operator">=</span>
+        <span class="number">4</span>
+        <span class="operator">mod</span>
+        <span class="operator">-</span><span class="number">3</span>
+        <span class="keyword">stfu</span>
+        <span class="comment"># Warning is suppressed</span>
+        <br>
+        <span class="keyword">num</span>
+        <span class="num">c</span>
+        <span class="operator">=</span>
+        <span class="number">4</span>
+        <span class="operator">mod</span>
+        <span class="operator">-</span><span class="number">3</span>
+        <span class="keyword">stfu</span>
+        <span class="operator">*</span>
+        <span class="number">8</span>
+        <span class="comment"># Throws error because stfu is not at end of line</span>
+      </code>
+
+      <h2 id="assert"><span class="keyword">assert</span></h2>
+      <p>
+        <span class="keyword">assert</span> evaluates a condition and throws an error if the 
+        condition is false.
+      </p>
+      <code class="big">
+        <span class="keyword">assert</span>
+        <span class="number">5</span>
+        <span class="operator">==</span>
+        <span class="number">3</span>
+        <span class="operator">+</span>
+        <span class="number">2</span>
+        <br>
+        <span class="keyword">assert</span>
+        <span class="number">6</span>
+        <span class="operator">==</span>
+        <span class="number">3</span>
+        <span class="operator">+</span>
+        <span class="number">2</span>
+        <span class="comment"># Throws error because assertion failed</span>
+      </code>
+
+      <!-- ~ MACROS ~ -->
+      <h1 id="macros">Macros</h1>
+      <p>Macros are special functions that handle larger operations and do not return a value.</p>
+
+      <h2 id="maximize">Model Maximizer (<span class="macro">maximize</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="macro">maximize</span><span class="operator">(</span>
+            <span class="param">lp</span><span class="operator">:</span><span class="keyword">model</span>
+            <span class="operator">,</span>
+            <span class="param">thres</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">1</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">lp</span></td>
+          <td><span class="keyword">model</span></td>
+          <td>The model to be maximized</td>
+        </tr>
+        <tr>
+          <td><span class="param">thres</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The solver tolerance for problem that contain integer constraints</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="minimize">Model Minimizer (<span class="macro">minimize</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="macro">minimize</span><span class="operator">(</span>
+            <span class="param">lp</span><span class="operator">:</span><span class="keyword">model</span>
+            <span class="operator">,</span>
+            <span class="param">thres</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">1</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">lp</span></td>
+          <td><span class="keyword">model</span></td>
+          <td>The model to be minimized</td>
+        </tr>
+        <tr>
+          <td><span class="param">thres</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The solver tolerance for problem that contain integer constraints</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="lindoize">Convert to LINDO (<span class="macro">lindoize</span>)</h2>
+      <p>Converts a QUINNDO Model object to a LINDO program.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="macro">lindoize</span><span class="operator">(</span>
+            <span class="param">lp</span><span class="operator">:</span><span class="keyword">model</span>
+            <span class="operator">,</span>
+            <span class="param">type</span><span class="operator">:</span><span class="keyword">str</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">lp</span></td>
+          <td><span class="keyword">model</span></td>
+          <td>The model to be converted to LINDO</td>
+        </tr>
+        <tr>
+          <td><span class="param">type</span></td>
+          <td><span class="keyword">str</span></td>
+          <td class="wide">Must be one of "max" or "min"</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="min_path">Shortest Path Finder (<span class="macro">min_path</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="macro">min_path</span><span class="operator">(</span>
+            <span class="param">net</span><span class="operator">:</span><span class="keyword">ntwk</span>
+            <span class="operator">,</span>
+            <span class="param">anchor</span><span class="operator">:</span><span class="keyword">str</span><span class="operator">|</span><span class="keyword">num</span><span class="operator">|</span><span class="keyword">node</span>
+            <span class="operator">,</span>
+            <span class="param">render</span><span class="operator">?:</span><span class="keyword">bool</span><span class="operator">=</span><span class="keyword">false</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">net</span></td>
+          <td><span class="keyword">ntwk</span></td>
+          <td>The network in which to find the shortest path</td>
+        </tr>
+        <tr>
+          <td><span class="param">anchor</span></td>
+          <td>
+            <span class="keyword">str</span><span class="operator">|</span><span class="keyword">num</span><span class="operator">|</span><span class="keyword">node</span></td>
+          <td>The point from which to find the shortest path</td>
+        </tr>
+        <tr>
+          <td><span class="param">render</span><span class="operator">?</span></td>
+          <td><span class="keyword">bool</span></td>
+          <td>Whether to print the model to the console on completion</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="render">Renderer (<span class="macro">render</span>)</h2>
+      <p>render is used to draw plots in the console.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="macro">render</span><span class="operator">(</span>
+            <span class="param">obj</span><span class="operator">:</span><span class="keyword">plot</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">obj</span></td>
+          <td><span class="keyword">plot</span></td>
+          <td>The plot to draw in the console</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="print">Print (<span class="macro">print</span>)</h2>
+      <p>print is used to print objects to the console.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="macro">print</span><span class="operator">(</span>
+            <span class="param">obj</span><span class="operator">:</span><span class="keyword">any</span>
+            <span class="operator">)</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">obj</span></td>
+          <td><span class="keyword">any</span></td>
+          <td>The object to print to the console</td>
+        </tr>
+      </tbody></table>
+
+
+      <!-- ~ MATH OPERATIONS -->
+      <h1 id="math-operations">Math Operations</h1>
+      <h2 id="sign">Sign (<span class="func">sign</span>)</h2>
+      <p>Returns 1 if a number is greater than 0, -1 if a number is less than 0, and 0 if the number is 0.</p>
+      <h2 id="sign">Natural Logarithm (<span class="func">log</span>)</h2>
+      <h2 id="sign">Base-2 Logarithm (<span class="func">log2</span>)</h2>
+      <h2 id="sign">Base-10 Logarithm (<span class="func">log10</span>)</h2>
+      <h2 id="exp">Exponential (<span class="func">exp</span>)</h2>
+      <h2 id="abs">Absolute Value (<span class="func">abs</span>)</h2>
+      <h2 id="floor">Floor (<span class="func">floor</span>)</h2>
+      <h2 id="round">Round (<span class="func">round</span>)</h2>
+      <h2 id="ceil">Ceiling (<span class="func">ceil</span>)</h2>
+      <h2 id="sqrt">Square Root (<span class="func">sqrt</span>)</h2>
+      <h2 id="cbrt">Cube Root (<span class="func">cbrt</span>)</h2>
+      <h2 id="cos">Cosine (<span class="func">cos</span>)</h2>
+      <h2 id="acos">Arc-Cosine (<span class="func">acos</span>)</h2>
+      <h2 id="sin">Sine (<span class="func">sin</span>)</h2>
+      <h2 id="asin">Arc-Sine (<span class="func">asin</span>)</h2>
+      <h2 id="tan">Tangent (<span class="func">tan</span>)</h2>
+      <h2 id="atan">Arc-Tangent (<span class="func">atan</span>)</h2>
+
+
+      <!-- ~ STAT SUMMARIES ~ -->
+      <h1 id="stat-summs">Statistical Summaries</h1>
+      <h2 id="sum">Sum (<span class="func">sum</span>)</h2>
+      <h2 id="mean">Mean (<span class="func">mean</span>)</h2>
+      <h2 id="median">Median (<span class="func">median</span>)</h2>
+      <h2 id="mode">Mode (<span class="func">mode</span>)</h2>
+      <h2 id="max">List Maximum (<span class="func">max</span>)</h2>
+      <h2 id="min">List Minimum (<span class="func">min</span>)</h2>
+      <h2 id="samsd">Sample Standard Deviation (<span class="func">samsd</span>)</h2>
+      <h2 id="samvar">Sample Variance (<span class="func">samvar</span>)</h2>
+      <h2 id="popsd">Population Standard Deviation (<span class="func">popsd</span>)</h2>
+      <h2 id="popvar">Population Variance (<span class="func">popvar</span>)</h2>
+      <h2 id="rsq">R-Squared (<span class="func">rsq</span>)</h2>
+      <h2 id="lsr">Least Squares Linear Regression (<span class="func">lsr</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">lsr</span><span class="operator">(</span>
+            <span class="param">x</span><span class="operator">:</span><span class="keyword">nvec</span><span class="operator">|</span><span class="keyword">nmtx</span>
+            <span class="operator">,</span>
+            <span class="param">y</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">int</span><span class="operator">?:</span><span class="keyword">bool</span><span class="operator">=</span><span class="keyword">true</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nvec</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">x</span></td>
+          <td style="white-space: nowrap;"><span class="keyword">nvec</span><span class="operator">|</span><span class="keyword">nmtx</span></td>
+          <td>
+            A vector containing x values for single-variate regression or a matrix with entries in rows
+            and variables in columns for multivariate regression
+          </td>
+        </tr>
+        <tr>
+          <td><span class="param">y</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td>The expected output values</td>
+        </tr>
+        <tr>
+          <td><span class="param">int</span><span class="operator">?</span></td>
+          <td><span class="keyword">bool</span></td>
+          <td>Whether to include the intercept in the regression - ignored for single-variate regressions</td>
+        </tr>
+      </tbody></table>
+
+
+      <!-- ~ STAT TESTS ~ -->
+      <h1 id="stat-tests">Statistical Tests</h1>
+
+      <h2 id="ztest">One-Sample Z-Test (<span class="func">ztest</span>)</h2>
+      <p>ztest does a one-sample z-test.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">ztest</span><span class="operator">(</span>
+            <span class="param">sample</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">alt</span><span class="operator">:</span><span class="keyword">operator</span>
+            <span class="operator">,</span>
+            <span class="param">val</span><span class="operator">:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">sigma</span><span class="operator">:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">alpha</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">5</span><span class="operator">%</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">sample</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The sample data</td>
+        </tr>
+        <tr>
+          <td><span class="param">alt</span></td>
+          <td><span class="keyword">operator</span></td>
+          <td class="wide">The sign of the alternative hypothesis - must be one of ~=, &gt;, or &lt;</td>
+        </tr>
+        <tr>
+          <td><span class="param">val</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The threshold value of the alternative hypothesis</td>
+        </tr>
+        <tr>
+          <td><span class="param">sigma</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The population standard deviation</td>
+        </tr>
+        <tr>
+          <td><span class="param">alpha</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The significance level of the test</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="ztest2">Two-Sample Z-Test (<span class="func">ztest2</span>)</h2>
+      <p>ztest2 does a two-sample z-test.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">ztest2</span><span class="operator">(</span><br>
+            &nbsp;&nbsp;<span class="param">sample1</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">sample2</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">sigma1</span><span class="operator">:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">sigma2</span><span class="operator">:</span><span class="keyword">num</span>
+            <span class="operator">,</span><br>
+            &nbsp;&nbsp;<span class="param">alt</span><span class="operator">?:</span><span class="keyword">operator</span><span class="operator">&equals; ~=</span>
+            <span class="operator">,</span>
+            <span class="param">val</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span>
+            <span class="operator">,</span>
+            <span class="param">alpha</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">5</span><span class="operator">%</span><br>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">sample1</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The sample data from the first sample</td>
+        </tr>
+        <tr>
+          <td><span class="param">sample2</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The sample data from the second sample</td>
+        </tr>
+        <tr>
+          <td><span class="param">sigma1</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The population standard deviation for sample1</td>
+        </tr>
+        <tr>
+          <td><span class="param">sigma2</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The population standard deviation for sample2</td>
+        </tr>
+        <tr>
+          <td><span class="param">alt</span><span class="operator">?</span></td>
+          <td><span class="keyword">operator</span></td>
+          <td class="wide">The sign of the alternative hypothesis - must be one of ~=, &gt;, or &lt;</td>
+        </tr>
+        <tr>
+          <td><span class="param">val</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The threshold value of the alternative hypothesis</td>
+        </tr>
+        <tr>
+          <td><span class="param">alpha</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The significance level of the test</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="ttest">One-Sample T-Test (<span class="func">ttest</span>)</h2>
+      <p>ttest does a one-sample t-test.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">ttest</span><span class="operator">(</span>
+            <span class="param">sample</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">alt</span><span class="operator">:</span><span class="keyword">operator</span>
+            <span class="operator">,</span>
+            <span class="param">val</span><span class="operator">:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">alpha</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">5</span><span class="operator">%</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">sample</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The sample data</td>
+        </tr>
+        <tr>
+          <td><span class="param">alt</span></td>
+          <td><span class="keyword">operator</span></td>
+          <td class="wide">The sign of the alternative hypothesis - must be one of ~=, &gt;, or &lt;</td>
+        </tr>
+        <tr>
+          <td><span class="param">val</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The threshold value of the alternative hypothesis</td>
+        </tr>
+        <tr>
+          <td><span class="param">alpha</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The significance level of the test</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="ttest2">Two-Sample T-Test (<span class="func">ttest2</span>)</h2>
+      <p>ttest2 does a two-sample t-test.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">ttest2</span><span class="operator">(</span><br>
+            &nbsp;&nbsp;<span class="param">sample1</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">sample2</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span><br>
+            &nbsp;&nbsp;<span class="param">alt</span><span class="operator">?:</span><span class="keyword">operator</span><span class="operator">&equals; ~=</span>
+            <span class="operator">,</span>
+            <span class="param">val</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span>
+            <span class="operator">,</span>
+            <span class="param">alpha</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">5</span><span class="operator">%</span>
+            <span class="operator">,</span>
+            <span class="param">type</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">0</span><br>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">sample1</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The sample data from the first sample</td>
+        </tr>
+        <tr>
+          <td><span class="param">sample2</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The sample data from the second sample</td>
+        </tr>
+        <tr>
+          <td><span class="param">alt</span><span class="operator">?</span></td>
+          <td><span class="keyword">operator</span></td>
+          <td class="wide">The sign of the alternative hypothesis - must be one of ~=, &gt;, or &lt;</td>
+        </tr>
+        <tr>
+          <td><span class="param">val</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The threshold value of the alternative hypothesis</td>
+        </tr>
+        <tr>
+          <td><span class="param">alpha</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The significance level of the test</td>
+        </tr>
+        <tr>
+          <td><span class="param">type</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The type of t-test to run (0=Welch's,1=Pooled,2=Student's)</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="ftest">F-Test (<span class="func">ftest</span>)</h2>
+      <p>ftest does an F-test.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">ftest</span><span class="operator">(</span>
+            <span class="param">sample1</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">sample2</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">alt</span><span class="operator">?:</span><span class="keyword">operator</span><span class="operator">&equals; ~=</span>
+            <span class="operator">,</span>
+            <span class="param">alpha</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">5</span><span class="operator">%</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">sample1</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The sample data from the first sample</td>
+        </tr>
+        <tr>
+          <td><span class="param">sample2</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The sample data from the second sample</td>
+        </tr>
+        <tr>
+          <td><span class="param">alt</span><span class="operator">?</span></td>
+          <td><span class="keyword">operator</span></td>
+          <td class="wide">The sign of the alternative hypothesis - must be one of ~=, &gt;, or &lt;</td>
+        </tr>
+        <tr>
+          <td><span class="param">alpha</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The significance level of the test</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="anova">ANOVA (<span class="func">anova</span>)</h2>
+      <p>anova does an ANOVA.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">anova</span><span class="operator">(</span>
+            <span class="param">samples</span><span class="operator">:</span><span class="keyword">nmtx</span>
+            <span class="operator">,</span>
+            <span class="param">alpha</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">5</span><span class="operator">%</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">samples</span></td>
+          <td><span class="keyword">nmtx</span></td>
+          <td class="wide">The data for the ANOVA - each factor must be a row</td>
+        </tr>
+        <tr>
+          <td><span class="param">alpha</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The significance level of the test</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="goftest">Goodness of Fit Test (<span class="func">goftest</span>)</h2>
+      <p>goftest does a &Chi;<sup>2</sup> goodness of fit test.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">goftest</span><span class="operator">(</span>
+            <span class="param">observed</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">expected</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">,</span>
+            <span class="param">alpha</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">5</span><span class="operator">%</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">observed</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The observed values</td>
+        </tr>
+        <tr>
+          <td><span class="param">expected</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The expected values to compare against</td>
+        </tr>
+        <tr>
+          <td><span class="param">alpha</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The significance level of the test</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="indtest">&Chi;<sup>2</sup> Test for Independence (<span class="func">indtest</span>)</h2>
+      <p>indtest does a &Chi;<sup>2</sup> test for independence.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">indtest</span><span class="operator">(</span>
+            <span class="param">values</span><span class="operator">:</span><span class="keyword">nmtx</span>
+            <span class="operator">,</span>
+            <span class="param">alpha</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">5</span><span class="operator">%</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">test</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">values</span></td>
+          <td><span class="keyword">nmtx</span></td>
+          <td class="wide">The data for the independence test</td>
+        </tr>
+        <tr>
+          <td><span class="param">alpha</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The significance level of the test</td>
+        </tr>
+      </tbody></table>
+
+
+      <!-- ~ VEC/MTX FUNCTIONS ~ -->
+      <h1 id="vec-and-mtx-functions">Vector &amp; Matrix Functions</h1>
+
+      <h2 id="range">Vector Range Builder (<span class="func">range</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">range</span><span class="operator">(</span>
+            <span class="param">start</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">1</span>
+            <span class="operator">,</span>
+            <span class="param">end</span><span class="operator">:</span><span class="keyword">num</span>
+            <span class="operator">,</span>
+            <span class="param">step</span><span class="operator">?:</span><span class="keyword">num</span><span class="operator">=</span><span class="number">1</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nvec</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">start</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The start value of the final array</td>
+        </tr>
+        <tr>
+          <td><span class="param">end</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The end value of the final array, which will be included</td>
+        </tr>
+        <tr>
+          <td><span class="param">step</span><span class="operator">?</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The step between values</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="size">Vector Size (<span class="func">size</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">size</span><span class="operator">(</span>
+            <span class="param">x</span><span class="operator">:</span><span class="keyword">list</span><span class="operator">|</span><span class="keyword">str</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">num</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">x</span></td>
+          <td><span class="keyword">list</span><span class="operator">|</span><span class="keyword">str</span></td>
+          <td>The value of which to find the size</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="nrow">Matrix Row Count (<span class="func">nrow</span>)</h2>
+      <p>An alias of <a href="#size"><span class="func">size</span></a> for matrices.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">nrow</span><span class="operator">(</span>
+            <span class="param">x</span><span class="operator">:</span><span class="keyword">nmtx</span><span class="operator">|</span><span class="keyword">vmtx</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">num</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">x</span></td>
+          <td><span class="keyword">nmtx</span><span class="operator">|</span><span class="keyword">vmtx</span></td>
+          <td>The matrix from which to find the number of rows</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="ncol">Matrix Column Count (<span class="func">ncol</span>)</h2>
+      <p>Gets the number of column from a rectangular matrix.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">ncol</span><span class="operator">(</span>
+            <span class="param">x</span><span class="operator">:</span><span class="keyword">nmtx</span><span class="operator">|</span><span class="keyword">vmtx</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">num</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">x</span></td>
+          <td><span class="keyword">nmtx</span><span class="operator">|</span><span class="keyword">vmtx</span></td>
+          <td>The matrix from which to find the number of columns</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="maxcol">Matrix Max Column Count (<span class="func">maxcol</span>)</h2>
+      <p>Gets the number of elements in the longest row of a matrix.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">maxcol</span><span class="operator">(</span>
+            <span class="param">x</span><span class="operator">:</span><span class="keyword">nmtx</span><span class="operator">|</span><span class="keyword">vmtx</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">num</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">x</span></td>
+          <td><span class="keyword">nmtx</span><span class="operator">|</span><span class="keyword">vmtx</span></td>
+          <td>The matrix from which to find the max row length</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="mincol">Matrix Min Column Count (<span class="func">mincol</span>)</h2>
+      <p>Gets the number of elements in the shortest row of a matrix.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">mincol</span><span class="operator">(</span>
+            <span class="param">x</span><span class="operator">:</span><span class="keyword">nmtx</span><span class="operator">|</span><span class="keyword">vmtx</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">num</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">x</span></td>
+          <td><span class="keyword">nmtx</span><span class="operator">|</span><span class="keyword">vmtx</span></td>
+          <td>The matrix from which to find the min row length</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="unit">Unit Vector Normalizer (<span class="func">unit</span>)</h2>
+      <p>Returns a vector normalized to a magnitude of 1.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">unit</span><span class="operator">(</span>
+            <span class="param">v</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nvec</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">v</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The vector to normalize</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="prob">Probability Normalizer (<span class="func">prob</span>)</h2>
+      <p>Returns a vector normalized to a valid probability distribution.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">prob</span><span class="operator">(</span>
+            <span class="param">v</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nvec</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">v</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The vector to convert to a probability distribution</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="norm">Z-Score Normalizer (<span class="func">norm</span>)</h2>
+      <p>Returns a vector normalized to a mean of 0 and a sample standard deviation of 1.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">norm</span><span class="operator">(</span>
+            <span class="param">v</span><span class="operator">:</span><span class="keyword">nvec</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nvec</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">v</span></td>
+          <td><span class="keyword">nvec</span></td>
+          <td class="wide">The vector to normalize</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="sort">Vector Sorter (<span class="func">sort</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">sort</span><span class="operator">(</span>
+            <span class="param">v</span><span class="operator">:</span><span class="keyword">nvec</span><span class="operator">|</span><span class="keyword">svec</span>
+            <span class="operator">,</span>
+            <span class="param">reverse</span><span class="operator">?:</span><span class="keyword">bool</span><span class="operator">=</span><span class="keyword">false</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nvec</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">v</span></td>
+          <td style="white-space: nowrap;"><span class="keyword">nvec</span><span class="operator">|</span><span class="keyword">svec</span></td>
+          <td>The vector to sort</td>
+        </tr>
+        <tr>
+          <td><span class="param">reverse</span><span class="operator">?</span></td>
+          <td><span class="keyword">bool</span></td>
+          <td>The direction in which to sort the list - ascending if false, descending if true</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="trace">Matrix Trace (<span class="func">trace</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">trace</span><span class="operator">(</span>
+            <span class="param">m</span><span class="operator">:</span><span class="keyword">nmtx</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">num</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">m</span></td>
+          <td><span class="keyword">nmtx</span></td>
+          <td class="wide">The matrix of which to find the trace</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="deter">Matrix Determinant (<span class="func">deter</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">deter</span><span class="operator">(</span>
+            <span class="param">m</span><span class="operator">:</span><span class="keyword">nmtx</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">num</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">m</span></td>
+          <td><span class="keyword">nmtx</span></td>
+          <td class="wide">The matrix of which to find the determinant</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="diag">Matrix Diagonal Elements (<span class="func">diag</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">diag</span><span class="operator">(</span>
+            <span class="param">values</span><span class="operator">:</span><span class="keyword">nmtx</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nvec</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">values</span></td>
+          <td><span class="keyword">nmtx</span></td>
+          <td class="wide">The matrix of which to find the diagonal elements</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="identity">Identity Matrix (<span class="func">identity</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">identity</span><span class="operator">(</span>
+            <span class="param">n</span><span class="operator">:</span><span class="keyword">num</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nmtx</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">n</span></td>
+          <td><span class="keyword">num</span></td>
+          <td class="wide">The dimension of the identity matrix</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="inv">Matrix Inversion (<span class="func">inv</span>)</h2>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">inv</span><span class="operator">(</span>
+            <span class="param">m</span><span class="operator">:</span><span class="keyword">nmtx</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">nmtx</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">m</span></td>
+          <td><span class="keyword">nmtx</span></td>
+          <td class="wide">The matrix to invert</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="unique">Unique Elements (<span class="func">unique</span>)</h2>
+      <p>Returns a copy of a list with duplicates removed.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">unique</span><span class="operator">(</span>
+            <span class="param">x</span><span class="operator">:</span><span class="keyword">list</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">list</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">x</span></td>
+          <td><span class="keyword">list</span></td>
+          <td class="wide">The list from which to remove duplicates</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="union">Common Elements (<span class="func">union</span>)</h2>
+      <p>Returns a list with values common to two lists.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">union</span><span class="operator">(</span>
+            <span class="param">list1</span><span class="operator">:</span><span class="keyword">list</span>
+            <span class="operator">,</span>
+            <span class="param">list2</span><span class="operator">:</span><span class="keyword">list</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">list</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">list1</span></td>
+          <td><span class="keyword">list</span></td>
+          <td class="wide">The first list</td>
+        </tr>
+        <tr>
+          <td><span class="param">list2</span></td>
+          <td><span class="keyword">list</span></td>
+          <td class="wide">The second list</td>
+        </tr>
+      </tbody></table>
+
+
+      <!-- ~ MISC FUNCTIONS ~ -->
+      <h1 id="misc-functions">Miscellaneous Functions</h1>
+
+      <h2 id="join">String Vector Joiner (<span class="func">join</span>)</h2>
+      <p>Joins a String Vector into a String with a given string.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">join</span><span class="operator">(</span>
+            <span class="param">v</span><span class="operator">:</span><span class="keyword">svec</span>
+            <span class="operator">,</span>
+            <span class="param">sep</span><span class="operator">?:</span><span class="keyword">str</span><span class="operator">=</span><span class="str">&quot; &quot;</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">str</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">v</span></td>
+          <td><span class="keyword">svec</span></td>
+          <td class="wide">The string vector to join</td>
+        </tr>
+        <tr>
+          <td><span class="param">sep</span><span class="operator">?</span></td>
+          <td><span class="keyword">str</span></td>
+          <td class="wide">The string with which to join the vector</td>
+        </tr>
+      </tbody></table>
+
+      <h2 id="split">String Splitter (<span class="func">split</span>)</h2>
+      <p>Splits a String into a String Vector with a given string.</p>
+      <table><tbody>
+        <tr>
+          <th colspan="3">
+            <span class="func">split</span><span class="operator">(</span>
+            <span class="param">s</span><span class="operator">:</span><span class="keyword">str</span>
+            <span class="operator">,</span>
+            <span class="param">sep</span><span class="operator">?:</span><span class="keyword">str</span><span class="operator">=</span><span class="str">&quot; &quot;</span>
+            <span class="operator">)</span><span class="operator">:</span>
+            <span class="keyword">svec</span>
+          </th>
+        </tr>
+        <tr>
+          <td><span class="param">s</span></td>
+          <td><span class="keyword">str</span></td>
+          <td class="wide">The string to split</td>
+        </tr>
+        <tr>
+          <td><span class="param">sep</span><span class="operator">?</span></td>
+          <td><span class="keyword">str</span></td>
+          <td class="wide">The string with which to split the string</td>
+        </tr>
+      </tbody></table>
+
+      
+      <!-- ~ EXAMPLES ~ -->
+      <h1 id="examples">Examples</h1>
+      <h2 id="example-scatter">Scatter Plot</h2>
+      <code class="big">
+        <span class="keyword">nvec</span>
+        <span class="nvec">x</span>
+        <span class="operator">=</span>
+        <span class="func">range</span><span class="operator">(</span><span class="number">5</span><span class="operator">)</span>
+        <span class="comment"># [1,2,3,4,5]</span>
+        <br>
+        <span class="keyword">nvec</span>
+        <span class="nvec">y</span>
+        <span class="operator">=</span>
+        <span class="func">range</span><span class="operator">(</span>
+        <span class="number">5</span>
+        <span class="operator">,</span>
+        <span class="number">13</span>
+        <span class="operator">,</span>
+        <span class="number">2</span>
+        <span class="operator">)</span>
+        <span class="comment"># [5,7,9,11,13]</span>
+        <br>
+        <span class="keyword">plot</span>
+        <span class="plot">p</span>
+        <span class="operator">=</span>
+        <span class="func">plot</span><span class="operator">.</span><span class="func">scatter</span><span class="operator">(</span>
+        <span class="nvec">x</span>
+        <span class="operator">,</span>
+        <span class="nvec">y</span>
+        <span class="operator">)</span>
+        <br>
+        <span class="macro">render</span><span class="operator">(</span><span class="plot">p</span><span class="operator">)</span>
+      </code>
+
+      <h2 id="example-ttest2">Student's 2-Sample T-Test</h2>
+      <code class="big">
+        <span class="keyword">nvec</span>
+        <span class="nvec">s1</span>
+        <span class="operator">=</span>
+        <span class="operator">[</span><span class="number">7</span><span class="operator">,</span><span class="number">2</span><span class="operator">,</span><span class="number">4</span><span class="operator">]</span>
+        <br>
+        <span class="keyword">nvec</span>
+        <span class="nvec">s2</span>
+        <span class="operator">=</span>
+        <span class="func">range</span><span class="operator">(</span><span class="number">3</span><span class="operator">)</span>
+        <span class="comment"># [1,2,3]</span>
+        <br>
+        <span class="keyword">test</span>
+        <span class="test">t</span>
+        <span class="operator">=</span>
+        <span class="func">ttest2</span><span class="operator">(</span>
+        <span class="nvec">s1</span>
+        <span class="operator">,</span>
+        <span class="nvec">s2</span>
+        <span class="operator">,</span>
+        <span class="param">type</span><span class="operator">=</span><span class="func">ttest2</span><span class="operator">.</span><span class="index">student</span>
+        <span class="operator">)</span>
+      </code>
+
+      <h2 id="example-int-prog">Integer Programming</h2>
+      <p>The Lotus Point Condo Project will contain both homes
+        and apartments. The site can accommodate up to 10,000
+        dwelling units. The project must contain a recreation project:
+        either a swimming-tennis complex or a sailboat marina, but
+        not both. If a marina is built, then the number of homes in
+        the project must be at least triple the number of apartments
+        in the project. A marina will cost $1.2 million, and a
+        swimming-tennis complex will cost $2.8 million. The
+        developers believe that each apartment will yield revenues
+        with an NPV of $48,000, and each home will yield revenues
+        with an NPV of $46,000. Each home (or apartment) costs
+        $40,000 to build. Formulate an IP to help Lotus Point
+        maximize profits.
+      </p>
+      <span class="citation"><b>Problem From:</b> Winston, W. L., & Goldberg, J. B. (2004). <i>Operations research: Applications and Algorithms.</i> Brooks/Cole.</span>
+      <code class="big">
+        <span class="keyword">var</span>
+        <span class="var">a</span><span class="operator">,</span><span class="var">h</span><span class="operator">,</span><span class="var">m</span><span class="operator">,</span><span class="var">t</span>
+        <span class="comment"># apartments, homes, marina, tennis complex</span>
+        <br>
+        <span class="keyword">model</span>
+        <span class="model">p</span>
+        <span class="operator">=</span>
+        <span class="func">model</span><span class="operator">(</span>
+        <span class="number">8</span><span class="var">a</span>
+        <span class="operator">+</span>
+        <span class="number">6</span><span class="var">h</span>
+        <span class="operator">-</span>
+        <span class="number">1200</span><span class="var">m</span>
+        <span class="operator">-</span>
+        <span class="number">2800</span><span class="var">t</span>
+        <span class="operator">)</span>
+        <br>
+        <span class="model">p</span>
+        <span class="operator"><|</span>
+        <span class="var">a</span>
+        <span class="operator">+</span>
+        <span class="var">h</span>
+        <span class="operator"><=</span>
+        <span class="number">10_000</span>
+        <span class="comment"># building constraint</span>
+        <br>
+        <span class="model">p</span>
+        <span class="operator"><|</span>
+        <span class="var">m</span>
+        <span class="operator">=</span>
+        <span class="number">1</span>
+        <span class="operator">xor</span>
+        <span class="var">t</span>
+        <span class="operator">=</span>
+        <span class="number">1</span>
+        <span class="comment"># either marina or tennis/swimming</span>
+        <br>
+        <span class="model">p</span>
+        <span class="operator"><|</span>
+        <span class="var">m</span>
+        <span class="operator">=</span>
+        <span class="number">1</span>
+        <span class="operator">=></span>
+        <span class="var">h</span>
+        <span class="operator">>=</span>
+        <span class="number">3</span><span class="var">a</span>
+        <span class="comment"># marina building type constraint</span>
+        <br>
+        <span class="model">p</span>
+        <span class="operator"><|</span>
+        <span class="var">a</span><span class="operator">,</span><span class="var">h</span>
+        <span class="keyword">is</span>
+        <span class="keyword">int</span>
+        <span class="comment"># integer constraint</span>
+        <br>
+        <span class="model">p</span>
+        <span class="operator"><|</span>
+        <span class="var">m</span><span class="operator">,</span><span class="var">t</span>
+        <span class="keyword">is</span>
+        <span class="keyword">bin</span>
+        <span class="comment"># binary constraint</span>
+        <br>
+        <span class="macro">maximize</span><span class="operator">(</span><span class="model">p</span><span class="operator">)</span>
+      </code>
+
+      <h2 id="example-min-path">Shortest Path</h2>
+      <code class="big">
+        <span class="keyword">ntwk</span>
+        <span class="ntwk">n</span>
+        <span class="operator">=</span>
+        <span class="func">ntwk</span><span class="operator">()</span>
+        <br>
+        <span class="ntwk">n</span>
+        <span class="operator"><|</span>
+        <span class="func">edge</span><span class="operator">(</span>
+        <span class="number">1</span>
+        <span class="operator">,</span>
+        <span class="number">2</span>
+        <span class="operator">,</span>
+        <span class="number">1</span>
+        <span class="operator">)</span>
+        <span class="comment"># start,end,weight</span>
+        <br>
+        <span class="ntwk">n</span>
+        <span class="operator"><|</span>
+        <span class="func">edge</span><span class="operator">(</span>
+        <span class="number">1</span>
+        <span class="operator">,</span>
+        <span class="number">3</span>
+        <span class="operator">,</span>
+        <span class="number">2</span>
+        <span class="operator">)</span>
+        <br>
+        <span class="ntwk">n</span>
+        <span class="operator"><|</span>
+        <span class="func">edge</span><span class="operator">(</span>
+        <span class="number">2</span>
+        <span class="operator">,</span>
+        <span class="number">3</span>
+        <span class="operator">,</span>
+        <span class="number">3</span>
+        <span class="operator">)</span>
+        <br>
+        <span class="ntwk">n</span>
+        <span class="operator"><|</span>
+        <span class="func">edge</span><span class="operator">(</span>
+        <span class="number">3</span>
+        <span class="operator">,</span>
+        <span class="number">2</span>
+        <span class="operator">,</span>
+        <span class="number">1</span>
+        <span class="operator">)</span>
+        <br>
+        <span class="ntwk">n</span>
+        <span class="operator"><|</span>
+        <span class="func">edge</span><span class="operator">(</span>
+        <span class="number">2</span>
+        <span class="operator">,</span>
+        <span class="number">4</span>
+        <span class="operator">,</span>
+        <span class="number">3</span>
+        <span class="operator">)</span>
+        <br>
+        <span class="ntwk">n</span>
+        <span class="operator"><|</span>
+        <span class="func">edge</span><span class="operator">(</span>
+        <span class="number">3</span>
+        <span class="operator">,</span>
+        <span class="number">4</span>
+        <span class="operator">,</span>
+        <span class="number">2</span>
+        <span class="operator">)</span>
+        <br>
+        <span class="macro">min_path</span><span class="operator">(</span>
+        <span class="ntwk">n</span>
+        <span class="operator">,</span>
+        <span class="number">1</span>
+        <span class="operator">)</span>
+        <span class="comment"># Get shortest path to all other nodes from node 1  </span>
+      </code>
+
+      <div style="width:100%;height:100px"></div>
+
+    </main>
+  </body>
+</html>
