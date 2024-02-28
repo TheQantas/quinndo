@@ -1,0 +1,197 @@
+:root {
+  --main: hsl(240,5%,95%);
+  --accent: hsl(240,5%,85%);
+  --double-accent: hsl(240,5%,78%);
+  --triple-accent: hsl(240,5%,70%);
+  --quadruple-accent: hsl(240,5%,65%);
+  --counter: hsl(240,5%,5%);
+  --counter-accent: hsl(240,5%,35%);
+
+  --frost: hsla(240,5%,90%,0.5);
+  --light-frost: hsla(240,5%,90%,0.2);
+  --counter-frost: hsla(240,5%,10%,0.5);
+  --counter-light-frost: hsla(240,5%,10%,0.2);
+  --counter-lighter-frost: hsla(240,5%,10%,0.1);
+  --frost-radius: 5px;
+
+  --gap: 8px;
+
+  --pink: hsl(330,90%,30%);
+  --fuchsia: hsl(330,95%,55%);
+
+  --red: hsl(5,90%,50%);
+
+  --light-orange: hsl(30,80%,60%);
+  --orange: hsl(30,80%,45%);
+
+  --yellow: hsl(50,95%,40%);
+  --dark-yellow: hsl(45,80%,25%);
+
+  --green: hsl(100,90%,35%);
+  --dark-green: hsl(100,90%,20%);
+
+  --dark-turquoise: hsl(170,70%,20%);
+  --turquoise: hsl(160,90%,27%);
+  --light-turquoise: hsl(170,80%,35%);
+
+  --dark-blue: hsl(210,90%,20%);
+  --blue: hsl(220,90%,35%);
+  --light-blue: hsl(230,90%,65%);
+
+  --indigo: hsl(260,90%,60%);
+
+  --purple: hsl(290,90%,50%);
+  /* --dark-purple: hsl(280,90%,30%); */
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main: hsl(240,5%,5%);
+    --accent: hsl(240,5%,15%);
+    --double-accent: hsl(240,5%,23%);
+    --triple-accent: hsl(240,5%,30%);
+    --quadruple-accent: hsl(240,5%,35%);
+    --counter: hsl(240,5%,95%);
+    --counter-accent: hsl(240,5%,65%);
+    
+    --frost: hsla(240,5%,10%,0.5);
+    --light-frost: hsla(240,5%,10%,0.2);
+    --counter-frost: hsla(240,5%,90%,0.5);
+    --counter-light-frost: hsla(240,5%,90%,0.2);
+    --counter-lighter-frost: hsla(240,5%,90%,0.1);
+
+    --pink: hsl(330,90%,80%);
+    /* --fuchsia: hsl(330,95%,55%); */
+
+    --red: hsl(5,90%,50%);
+
+    --light-orange: hsl(30,80%,70%);
+    --orange: hsl(30,80%,55%);
+
+    --yellow: hsl(50,90%,55%);
+    --dark-yellow: hsl(45,90%,75%);
+
+    --green: hsl(100,90%,30%);
+    --dark-green: hsl(100,90%,80%);
+
+    --dark-turquoise: hsl(170,70%,75%);
+    --turquoise: hsl(160,90%,45%);
+    --light-turquoise: hsl(170,90%,35%);
+
+    --dark-blue: hsl(210,90%,85%);
+    --blue: hsl(220,90%,65%);
+    --light-blue: hsl(230,90%,55%);
+
+    --indigo: hsl(260,90%,80%);
+
+    --purple: hsl(290,90%,60%);
+    /* --dark-purple: hsl(280,90%,80%); */
+  }
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url(jetbrains_modified.ttf);
+}
+*:not(body):not(svg *) {
+  font-size: inherit;
+  /* color: var(--counter); */
+  color: inherit;
+  font-family: 'JetBrains Mono', monospace;
+}
+body {
+  background-color: var(--main);
+  color: var(--counter);
+  font-size: 16px;
+  gap: var(--gap);
+  box-sizing: border-box;
+  padding: var(--gap);
+  margin: 0;
+}
+button:focus, input:focus, select:focus {
+  outline: none;
+}
+button:not(.disabled):hover, select:not(.disabled):hover {
+  cursor: pointer;
+}
+
+/* ~ GENERIC SYMBOLS */
+
+.comment {
+  color: var(--green);
+  font-style: italic;
+}
+.number {
+  color: var(--dark-green);
+}
+.operator, .grouping {
+  color: grey;
+}
+.macro {
+  font-style: italic;
+  color: var(--fuchsia);
+}
+.declaration, .keyword, .domain, .none {
+  color: var(--purple);
+}
+.num, .nvec, .nmtx {
+  color: var(--blue);
+}
+.var, .vvec, .vmtx {
+  color: var(--dark-blue);
+}
+.nvec, .svec, .list, .bvec, .vvec, .avec, .mvec, .dvec, .ovec {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+.nmtx, .vmtx {
+  text-decoration: underline double;
+  text-decoration-thickness: 1px;
+}
+.str, .svec {
+  color: var(--orange);
+}
+.bool, .bvec {
+  color: var(--yellow);
+}
+.any, .list {
+  color: var(--counter-accent);
+}
+.func {
+  color: var(--indigo);
+}
+.proxy, .wtf {
+  color: var(--red);
+}
+.index, .name, .param {
+  color: var(--pink);
+}
+.alias, .avec {
+  color: var(--light-blue);
+}
+.escaped {
+  color: var(--light-orange);
+}
+.date, .edge, .node, .test, .meas, .dvec, .mvec, .ovec, .offset {
+  color: var(--dark-turquoise);
+}
+.ntwk, .model, .plot, .quilt {
+  color: var(--light-turquoise);
+}
+
+
+
+
+span.frame {
+  color: transparent;
+  background: linear-gradient(120deg,var(--turquoise),var(--blue) 40%,var(--purple));
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+span.error {
+  text-decoration: var(--red) underline wavy;
+}
+span.warning {
+  text-decoration: var(--yellow) underline wavy;
+}
+span.recommendation {
+  text-decoration: var(--green) underline wavy;
+}
