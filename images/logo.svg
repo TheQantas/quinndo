@@ -1,0 +1,17 @@
+<svg width="512" height="512" viewBox="0 0 512 512"
+  xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" gradientUnits="userSpaceOnUse" gradientTransform="rotate(65)">
+      <stop offset="0%" stop-color="#3eaa09"/>
+      <stop offset="50%" stop-color="#3d7af5"/>
+      <stop offset="100%" stop-color="#a60df2"/>
+    </linearGradient>
+  </defs>
+  <mask id="logo-mask">
+    <rect x="0" y="0" height="512" width="512" fill="black"></rect>
+    <polygon points="256 0,478 128,478 384,256 512,34 384,34 128" fill="white"></polygon>
+    <polygon points="256 96,394 176,394 336,256 416,118 336,118 176" fill="black"></polygon>
+    <polygon points="261 360,343 312,431 464,347 512" fill="white"></polygon>
+  </mask>
+  <rect x="0" y="0" width="512" height="512" fill="url(#gradient)" mask="url(#logo-mask)"></rect>
+</svg>
